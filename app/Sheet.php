@@ -127,7 +127,7 @@ class Sheet
                     $value = trim($cell['content']);
                 }
 
-				$row[$symCell] = $value;
+                $row[$symCell] = $value;
             }
         }
 

@@ -51,30 +51,30 @@ class SharedStrings
     }
 
     protected function startTag($parser, $name, $attribs)
-	{
+    {
         $this->currentTag = $name;
 
         if ($name == 'T') {
             $this->currentContent = '';
         }
-	}
+    }
 
     protected function endTag($parser, $name)
-	{
+    {
         $this->currentTag = '';
 
         if ($name == 'T') {
             $this->saveContent();
             $this->index++;
         }	
-	}
+    }
 
     protected function contents($parser, $data)
-	{
-		if ($this->currentTag == 'T') {
+    {
+        if ($this->currentTag == 'T') {
             $this->currentContent .= $data;   
         }
-	}
+    }
 
     private function saveContent(): void 
     {
