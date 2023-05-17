@@ -2,4 +2,19 @@
 
 require_once('../vendor/autoload.php');
 
-print('Hello world');
+use App\ExcelReader;
+
+$priceList = dirname(__FILE__) . '/pricelists/price.xlsx';
+
+$excelReader = new ExcelReader();
+
+$excelReader->open($priceList);
+
+foreach($excelReader->getSheets() as $sheet) {
+    $sheet->reading(function($row, $cells) {
+        echo '<pre>' . print_r($cells, true) . '</pre>';
+        if ($row > 10 ) die();
+    });
+}
+
+$excelReader->close();
