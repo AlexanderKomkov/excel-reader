@@ -38,9 +38,7 @@ class ExcelReader
             $this->clearZipFiles();
 
             $this->sharedString->save();
-
         }
-
         return $this;
     }
 
@@ -65,11 +63,9 @@ class ExcelReader
     private function saveZipFiles(): void 
     {
         $this->clearZipFiles();
-
-        for ($i = 0; $i < $this->zip->numFiles; $i++)
-        {
+        for ($i = 0; $i < $this->zip->numFiles; $i++) {
             $this->zipFales[] = $this->zip->getNameIndex($i);
-        } 
+        }
     }
 
     private function clearZipFiles(): void 
@@ -109,6 +105,7 @@ class ExcelReader
     public function getSheets(): array 
     {
         if (empty($this->sheets)) throw new Exception('Empty sheets');
+        
         return $this->sheets;
     }
 
