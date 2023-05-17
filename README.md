@@ -19,7 +19,7 @@ $excelReader->open($priceList);
 foreach($excelReader->getSheets() as $sheet) {
     $sheet->reading(function($row, $cells) {
         echo '<pre>' . print_r($cells, true) . '</pre>';
-        if ($row > 3 ) die();
+        if ($row > 4) die();
     });
 }
 
