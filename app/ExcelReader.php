@@ -2,9 +2,13 @@
 
 namespace App;
 
+use App\SharedData\PropertyData;
+use App\SharedData\TxtData;
+
 use Exception;
 use ZipArchive;
-use Closure;
+
+use App\Contracts\SharedData;
 
 class ExcelReader
 {
@@ -19,6 +23,8 @@ class ExcelReader
     private SharedStrings $sharedString;
 
     private array $sheets;
+
+    private string $driverShareData = 'property';
 
     public function open(string $excelFile): ExcelReader
     {
@@ -43,11 +49,17 @@ class ExcelReader
         $filenameSharedString = $this->getFilenameSharedString();
         $filenamesSheet = $this->getFilenamesSheet();
 
-        $this->sharedString = new SharedStrings($this->zip, $filenameSharedString);
+        $sharedData = $this->getSharedData();
+        $this->sharedString = new SharedStrings($this->zip, $sharedData, $filenameSharedString);
 
         foreach($filenamesSheet as $filenameSheet) {
             $this->sheets[] = new Sheet($this->zip, $this->sharedString, $filenameSheet);
         }
+    }
+
+    private function getSharedData(): SharedData
+    {
+        return ($this->driverShareData == 'txt') ? new TxtData() : new PropertyData();
     }
 
     private function saveZipFiles(): void 

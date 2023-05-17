@@ -6,25 +6,30 @@ use Exception;
 use ZipArchive;
 use XMLParser;
 
+use App\Contracts\SharedData;
+
 class SharedStrings
 {
     private ZipArchive $zip;
 
+    private SharedData $sharedData;
+
     private string $filename;
 
-    protected XMLParser $parser;
+    private XMLParser $parser;
 
-    protected string $currentContent;
+    private string $currentContent;
 
-    protected string $currentTag;
+    private string $currentTag;
 
-    protected int $index = 0;
+    private int $index = 0;
 
     public array $sharedStringData = [];
 
-    public function __construct(ZipArchive $zip, string $filename)
+    public function __construct(ZipArchive $zip, SharedData $sharedData, string $filename)
     {
         $this->zip = $zip;
+        $this->sharedData = $sharedData;
         $this->filename = $filename;
     }
 
@@ -69,7 +74,7 @@ class SharedStrings
         }	
     }
 
-    protected function contents($parser, $data)
+    private function contents($parser, $data)
     {
         if ($this->currentTag == 'T') {
             $this->currentContent .= $data;   
@@ -81,12 +86,12 @@ class SharedStrings
         $content = trim($this->currentContent);
         $index = $this->index;
 
-        $this->sharedStringData[$this->index] = $content;
+        $this->sharedData->save($content, $index);
     }
 
     public function getContentOnIndex(int $index): string 
     {
-        return array_key_exists($index, $this->sharedStringData) ? $this->sharedStringData[$index] : '';
+        return $this->sharedData->get($index);
     }
 
 }
