@@ -12,6 +12,8 @@
 ## Как использовать
 
 ```php
+$priceList = dirname(__FILE__) . '/pricelists/price.xlsx';
+
 $excelReader->open($priceList);
 
 foreach($excelReader->getSheets() as $sheet) {
